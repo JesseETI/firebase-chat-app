@@ -8,7 +8,7 @@ import {
   collection,
   query,
   orderBy,
-  limit,
+  limitToLast,
   getFirestore,
   addDoc,
   serverTimestamp,
@@ -22,10 +22,11 @@ export default function Chatroom() {
   //get database object(1), collection(2), make query from collection(3)
   const firestore = getFirestore();
   const msgRef = collection(firestore, "messages");
-  const q = query(msgRef, orderBy("createdAt"), limit(25));
+  const q = query(msgRef, orderBy("createdAt"), limitToLast(25));
 
   //this hook stores the 25 last returned messages for mapping into ChatMessage components
   const [messages] = useCollectionData(q, { idField: "id" });
+  console.log([messages]);
 
   const auth = getAuth();
   const dummy = useRef();
@@ -49,14 +50,22 @@ export default function Chatroom() {
   };
 
   return (
-    <Box className="chatroom">
+    <Box className="chatroom" sx={{ height: "100vh" }}>
       {/*header */}
       <Header />
 
       {/*chat screen */}
-      <Box className="messagesWrapper" sx={{ px: 3, pt: 8, overflow: "auto" }}>
+      <Box
+        className="messagesWrapper"
+        sx={{
+          px: 3,
+          height: "75vh",
+          overflow: "auto",
+        }}
+      >
         {messages &&
           messages.map((msg) => <ChatMessage key={msg.id} message={msg} />)}
+        <div ref={dummy}></div>
       </Box>
 
       {/* message box */}
@@ -64,12 +73,12 @@ export default function Chatroom() {
         component="form"
         onSubmit={sendMessage}
         sx={{
-          position: "fixed",
+          position: "sticky",
           bottom: 0,
-          width: "100%",
           display: "flex",
           bgcolor: "primary.main",
           p: 2,
+          height: "15vh",
         }}
       >
         <TextField
@@ -91,7 +100,6 @@ export default function Chatroom() {
           🔥
         </Button>
       </Box>
-      <div ref={dummy}></div>
     </Box>
   );
 }
