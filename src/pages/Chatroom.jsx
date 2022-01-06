@@ -26,6 +26,7 @@ export default function Chatroom() {
 
   //this hook stores the 25 last returned messages for mapping into ChatMessage components
   const [messages] = useCollectionData(q, { idField: "id" });
+  console.log([messages]);
 
   const auth = getAuth();
   const dummy = useRef();
