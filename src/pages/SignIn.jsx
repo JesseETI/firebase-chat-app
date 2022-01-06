@@ -16,8 +16,8 @@ const Wrapper = styled("div")(({ theme }) => ({
   justifyContent: "center",
   alignItems: "center",
   flexDirection: "column",
-  padding: 20,
   textAlign: "center",
+  padding: 20,
   [theme.breakpoints.up("md")]: {
     width: "50vw",
     height: "100vh",
@@ -63,22 +63,21 @@ export default function SignIn() {
           <Typography variant="h4" textAlign="center">
             Rules
           </Typography>
-          <Typography sx={{ fontWeight: "bold" }}>
-            Please be courteous as this chat is open to anyone who stumbles upon
-            this link. <br />
-            <br />
-            Profane Language = LIFETIME BAN{" "}
-            {/* This rule is implemented in cloud functions */}
-          </Typography>
           <Button
             sx={{ backgroundColor: "#FF0000" }}
-            size="large"
             variant="contained"
             startIcon={<GoogleIcon />}
             onClick={signInWithGoogle}
           >
             Sign In With Gmail
           </Button>
+          <Typography>
+            Please be courteous as this chat is open to anyone who stumbles upon
+            this link. <br />
+            <br />
+            Profane Language = LIFETIME BAN{" "}
+            {/* This rule is implemented in cloud functions */}
+          </Typography>
         </Wrapper>
       </Grid>
     </Grid>

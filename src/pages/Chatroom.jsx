@@ -16,7 +16,7 @@ import {
 import { getAuth } from "firebase/auth";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import ChatMessage from "../components/Chatmessage";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
 export default function Chatroom() {
   //get database object(1), collection(2), make query from collection(3)
@@ -26,10 +26,14 @@ export default function Chatroom() {
 
   //this hook stores the 25 last returned messages for mapping into ChatMessage components
   const [messages] = useCollectionData(q, { idField: "id" });
-  console.log([messages]);
 
   const auth = getAuth();
   const dummy = useRef();
+
+  useEffect(() => {
+    dummy.current.scrollIntoView({ behavior: "smooth" }); //scroll to placeholder div whenever message is sent / render change
+  });
+
   const [formValue, setFormValue] = useState("");
   const sendMessage = async (e) => {
     e.preventDefault();
@@ -45,8 +49,6 @@ export default function Chatroom() {
     });
 
     setFormValue("");
-
-    dummy.current.scrollIntoView({ behavior: "smooth" }); //scroll to placeholder div whenever message is sent
   };
 
   return (
@@ -59,7 +61,7 @@ export default function Chatroom() {
         className="messagesWrapper"
         sx={{
           px: 3,
-          maxHeight: "75vh",
+          height: "75vh",
           overflow: "auto",
         }}
       >
@@ -78,28 +80,40 @@ export default function Chatroom() {
           display: "flex",
           bgcolor: "primary.main",
           alignItems: "center",
+          justifyContent: "center",
           p: 2,
-          minHeight: "15vh",
+          height: "15vh",
         }}
       >
-        <TextField
-          fullWidth
-          required
-          label="What's on your mind?"
-          value={formValue}
-          autoComplete="off"
-          variant="filled"
-          onChange={(e) => setFormValue(e.target.value)}
-        />
-        <Button
-          type="submit"
+        <Box
+          className="formWrapper"
           sx={{
-            bgcolor: "primary.main",
-            "&:hover": { bgcolor: "primary.contrastText" },
+            width: "90%",
+            height: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
           }}
         >
-          🔥
-        </Button>
+          <TextField
+            fullWidth
+            required
+            label="What's on your mind?"
+            value={formValue}
+            autoComplete="off"
+            variant="filled"
+            onChange={(e) => setFormValue(e.target.value)}
+          />
+          <Button
+            type="submit"
+            sx={{
+              bgcolor: "primary.main",
+              "&:active, :hover": { transform: "scale(1.5)" },
+            }}
+          >
+            🔥
+          </Button>
+        </Box>
       </Box>
     </Box>
   );

@@ -37,11 +37,11 @@ function App() {
         palette: {
           mode: prefersDarkMode ? "dark" : "light",
           primary: {
-            main: orange[800],
+            main: orange[500],
             contrastText: "#fff",
           },
           secondary: {
-            main: red[800],
+            main: red[500],
             contrastText: "#fff",
           },
         },
