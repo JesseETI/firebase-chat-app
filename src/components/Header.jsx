@@ -14,10 +14,10 @@ export default function Header() {
   return (
     <Box
       sx={{
-        position: "fixed",
+        position: "sticky",
         top: 0,
         zIndex: 2,
-        width: "100%",
+        height: "10vh",
       }}
     >
       <AppBar position="static">
